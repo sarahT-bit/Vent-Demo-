@@ -1,197 +1,43 @@
 <!doctype html>
-<html>
-  <head>
-    <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover"
-    />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <title>Map Test</title>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Vent Map</title>
 
-    <link
-      rel="stylesheet"
-      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-    />
-    <link rel="stylesheet" href="styles.css" />
-  </head>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
 
-  <body>
-    <div id="map"></div>
+  <!-- Leaflet -->
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+  />
 
-    <!-- ================= PIN INPUT MODAL ================= -->
-    <div class="pin-modal-overlay" id="pinModalOverlay">
-      <div class="pin-modal">
-        <div class="pin-modal-header">
-          <div class="pin-modal-title">
-            <span id="pinModalIcon">📝</span>
-            <span id="pinModalTitleText">Add Text</span>
-          </div>
-          <button class="pin-modal-close" id="pinModalClose">×</button>
-        </div>
+  <link rel="stylesheet" href="styles.css" />
+</head>
 
-        <div class="pin-modal-body">
-          <div
-            class="media-type-toggle"
-            id="mediaTypeToggle"
-            style="display: none;"
-          >
-            <button
-              type="button"
-              class="media-type-btn photo active"
-              id="mediaTypePhoto"
-            >
-              📷 Photo
-            </button>
-            <button
-              type="button"
-              class="media-type-btn video"
-              id="mediaTypeVideo"
-            >
-              🎬 Video
-            </button>
-          </div>
+<body>
 
-          <div
-            class="pin-modal-field-group"
-            id="mediaUrlGroup"
-            style="display: none;"
-          >
-            <label class="pin-modal-label" id="mediaUrlLabel">Photo URL</label>
-            <input
-              type="url"
-              class="pin-modal-input"
-              id="pinModalMediaUrl"
-              placeholder="Paste image URL here..."
-            />
-          </div>
+  <!-- MAP -->
+  <div id="map"></div>
 
-          <div class="pin-modal-field-group">
-            <label
-              class="pin-modal-label"
-              id="textFieldLabel"
-              style="display: none;"
-              >Your text</label
-            >
-            <textarea
-              class="pin-modal-input"
-              id="pinModalInput"
-              rows="3"
-              placeholder="Enter your text..."
-            ></textarea>
-          </div>
+  <!-- EVENT DETAILS MODAL -->
+  <div class="event-overlay" id="eventOverlay">
+    <div class="event-modal">
+      <button class="event-close-btn" id="eventCloseBtn">×</button>
 
-          <div class="pin-modal-hint" id="pinModalHint">
-            Share your thoughts with the community
-          </div>
-        </div>
+      <h2 id="eventTitle"></h2>
+      <div class="event-date" id="eventDate"></div>
+      <p id="eventDescription"></p>
+      <div id="eventLocation"></div>
 
-        <div class="pin-modal-actions">
-          <button class="pin-modal-btn cancel" id="pinModalCancel">
-            Cancel
-          </button>
-          <button class="pin-modal-btn submit" id="pinModalSubmit">
-            Post
-          </button>
-        </div>
-      </div>
+      <a id="eventLink" target="_blank">View more</a>
     </div>
+  </div>
 
-    <!-- ================= EVENT DETAILS MODAL ================= -->
-    <div class="event-overlay" id="eventOverlay">
-      <div class="event-modal">
-        <button class="event-close-btn" id="eventCloseBtn">×</button>
-
-        <div class="event-header">
-          <div class="event-title" id="eventTitle">Event Title</div>
-          <div class="event-date" id="eventDate">Date & Time</div>
-        </div>
-
-        <div class="event-body">
-          <p class="event-description" id="eventDescription">
-            Event description
-          </p>
-          <div class="event-location" id="eventLocation">
-            📍 Event Location
-          </div>
-        </div>
-
-        <div class="event-actions">
-          <a
-            href="#"
-            target="_blank"
-            id="eventLink"
-            class="event-link"
-            >View More</a
-          >
-        </div>
-      </div>
-    </div>
-
-    <!-- ================= COMPASS ================= -->
-    <div class="compass-container">
-      <button class="compass-button" id="compassButton" title="Reset to North">
-        <div class="compass-needle">
-          <span class="compass-label north">N</span>
-          <span class="compass-label south">S</span>
-        </div>
-      </button>
-    </div>
-
-    <!-- ================= SEARCH ================= -->
-    <div class="search-container">
-      <div class="search-mode-dropdown" id="searchModeDropdown">
-        <div class="search-mode-option active" data-mode="community">
-          👥 Search Community
-        </div>
-        <div class="search-mode-option" data-mode="location">
-          📍 Search Location
-        </div>
-      </div>
-
-      <div class="search-wrapper">
-        <button class="search-mode-toggle" id="searchModeToggle">
-          <span id="searchModeIcon">👥</span> ▲
-        </button>
-        <input
-          type="text"
-          class="search-bar"
-          id="mainSearchBar"
-          placeholder="Search Community..."
-        />
-      </div>
-    </div>
-
-    <!-- ================= FLOATING ACTION BUTTON ================= -->
-    <div class="fab-container">
-      <div class="fab-menu" id="fabMenu">
-        <div class="fab-menu-title">Create Post</div>
-
-        <div class="fab-option" data-type="text">
-          ✏️ <span>Text</span>
-        </div>
-
-        <div class="fab-option" data-type="media">
-          📸 <span>Media</span>
-        </div>
-
-        <div class="layer-selector">
-          <div class="layer-selector-label">Select Layer</div>
-          <select class="layer-select" id="layerSelect">
-            <option value="public">Public</option>
-            <option value="friends">Friends</option>
-            <option value="private">Private</option>
-            <option value="events">Events</option>
-          </select>
-        </div>
-      </div>
-
-      <button class="fab-button" id="fabButton">+</button>
-    </div>
-
-    <!-- ================= SCRIPTS ================= -->
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="main.js"></script>
-  </body>
+  <!-- JS -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="main.js"></script>
+</body>
 </html>
+
