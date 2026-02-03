@@ -10,7 +10,7 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 }).addTo(map);
 
 // --------------------
-// EVENT DATA (WITH COMMUNITIES)
+// EVENT DATA
 // --------------------
 const events = [
   {
@@ -63,7 +63,6 @@ function openEventModal(event) {
   document.getElementById('eventDescription').textContent = event.description;
   document.getElementById('eventLocation').textContent = `📍 ${event.location}`;
   document.getElementById('eventLink').href = event.link;
-
   eventOverlay.style.display = 'flex';
 }
 
@@ -72,46 +71,56 @@ eventCloseBtn.onclick = () => {
 };
 
 // --------------------
-// EVENT LAYER GROUP
+// EVENT RENDERING
 // --------------------
 const eventLayer = L.layerGroup().addTo(map);
+const renderedEvents = [];
 
-function renderEvents(filterCommunity = null) {
+function renderEvents() {
   eventLayer.clearLayers();
+  renderedEvents.length = 0;
 
-  events
-    .filter(e =>
-      !filterCommunity ||
-      e.community === filterCommunity ||
-      e.subCommunity === filterCommunity
-    )
-    .forEach(event => {
-      const circle = L.circle([event.lat, event.lng], {
-        radius: event.radius,
-        color: '#667eea',
-        fillColor: '#667eea',
-        fillOpacity: 0.3,
-        weight: 2
-      }).addTo(eventLayer);
-
-      circle.on('click', () => openEventModal(event));
+  events.forEach(event => {
+    const circle = L.circle([event.lat, event.lng], {
+      radius: event.radius,
+      color: '#667eea',
+      fillColor: '#667eea',
+      fillOpacity: 0.3,
+      weight: 2
     });
+
+    circle.on('click', () => openEventModal(event));
+
+    const xMarker = L.marker([event.lat, event.lng], {
+      icon: L.divIcon({
+        className: 'event-x-icon',
+        html: '❌',
+        iconSize: [24, 24],
+        iconAnchor: [12, 12]
+      }),
+      interactive: false
+    });
+
+    eventLayer.addLayer(circle);
+
+    renderedEvents.push({
+      event,
+      circle,
+      xMarker
+    });
+  });
 }
 
 renderEvents();
 
 // --------------------
-// COMMUNITY SEARCH + DROPDOWN
+// COMMUNITY SEARCH + FILTER WITH ❌
 // --------------------
 const searchInput = document.getElementById('communitySearchInput');
 const dropdown = document.getElementById('communityDropdown');
 
 const communities = [
-  ...new Set(events.map(e => e.community)),
-];
-
-const subCommunities = [
-  ...new Set(events.map(e => e.subCommunity)),
+  ...new Set(events.flatMap(e => [e.community, e.subCommunity]))
 ];
 
 searchInput.addEventListener('input', () => {
@@ -120,11 +129,15 @@ searchInput.addEventListener('input', () => {
   dropdown.style.display = 'none';
 
   if (!value) {
-    renderEvents();
+    // Clear all ❌ markers
+    renderedEvents.forEach(({ circle, xMarker }) => {
+      circle.setStyle({ fillOpacity: 0.3, color: '#667eea' });
+      eventLayer.removeLayer(xMarker);
+    });
     return;
   }
 
-  const matches = [...communities, ...subCommunities].filter(c =>
+  const matches = communities.filter(c =>
     c.toLowerCase().includes(value)
   );
 
@@ -138,11 +151,34 @@ searchInput.addEventListener('input', () => {
       item.onclick = () => {
         searchInput.value = match;
         dropdown.style.display = 'none';
-        renderEvents(match);
+        applyCommunityFilter(match);
       };
 
       dropdown.appendChild(item);
     });
   }
 });
+
+function applyCommunityFilter(filter) {
+  renderedEvents.forEach(({ event, circle, xMarker }) => {
+    const matches =
+      event.community === filter ||
+      event.subCommunity === filter;
+
+    if (matches) {
+      circle.setStyle({
+        fillOpacity: 0.45,
+        color: '#4caf50'
+      });
+      eventLayer.removeLayer(xMarker);
+    } else {
+      circle.setStyle({
+        fillOpacity: 0.15,
+        color: '#bbb'
+      });
+      eventLayer.addLayer(xMarker);
+    }
+  });
+}
+
 
