@@ -1,44 +1,18 @@
-/* SEARCH BAR */
+/* 1. Global layout (REQUIRED) */
+html, body { height: 100%; margin: 0; }
+#map { position: absolute; inset: 0; z-index: 1; }
 
-.community-search {
-  position: absolute;
-  top: 12px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 1000;
-  width: 90%;
-  max-width: 400px;
-}
+/* 2. UI overlays */
+.community-search { z-index: 1000; }
 
-.community-search input {
-  width: 100%;
-  padding: 12px 14px;
-  border-radius: 12px;
-  border: 1px solid #ddd;
-  font-size: 16px;
-}
+/* 3. Modals */
+.event-overlay { z-index: 1000; }
 
-.community-dropdown {
-  background: white;
-  border-radius: 12px;
-  margin-top: 6px;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-  display: none;
-  overflow: hidden;
-}
-
-.dropdown-item {
-  padding: 10px 14px;
-  cursor: pointer;
-}
-
-.dropdown-item:hover {
-  background: #f2f2f2;
-}
-
+/* 4. Feature additions */
 .event-x-icon {
   font-size: 22px;
   pointer-events: none;
   transform: translate(-50%, -50%);
 }
+
 
