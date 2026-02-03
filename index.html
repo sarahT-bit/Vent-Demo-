@@ -4,50 +4,48 @@
   <meta charset="utf-8" />
   <title>Vent Map</title>
 
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <!-- Leaflet -->
+  <!-- Leaflet CSS -->
   <link
     rel="stylesheet"
     href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
   />
 
+  <!-- Your CSS -->
   <link rel="stylesheet" href="styles.css" />
 </head>
 
 <body>
 
-  <!-- SEARCH BAR -->
+  <!-- MAP (must be first visible element) -->
+  <div id="map"></div>
+
+  <!-- Community Search -->
   <div class="community-search">
     <input
       type="text"
       id="communitySearchInput"
       placeholder="Search community..."
-      autocomplete="off"
     />
     <div class="community-dropdown" id="communityDropdown"></div>
   </div>
 
-  <!-- MAP -->
-  <div id="map"></div>
-
-  <!-- EVENT DETAILS MODAL -->
+  <!-- Event Modal -->
   <div class="event-overlay" id="eventOverlay">
     <div class="event-modal">
       <button class="event-close-btn" id="eventCloseBtn">×</button>
-
       <h2 id="eventTitle"></h2>
-      <div class="event-date" id="eventDate"></div>
+      <div id="eventDate"></div>
       <p id="eventDescription"></p>
       <div id="eventLocation"></div>
-
-      <a id="eventLink" target="_blank">View more</a>
     </div>
   </div>
 
-  <!-- JS -->
+  <!-- Leaflet JS -->
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+  <!-- Your JS -->
   <script src="main.js"></script>
 </body>
 </html>
