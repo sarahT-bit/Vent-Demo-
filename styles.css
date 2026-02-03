@@ -1,56 +1,38 @@
-html, body {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto;
-}
+/* SEARCH BAR */
 
-#map {
-  width: 100%;
-  height: 100%;
-}
-
-/* EVENT MODAL */
-
-.event-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.4);
-  display: none;
-  align-items: center;
-  justify-content: center;
+.community-search {
+  position: absolute;
+  top: 12px;
+  left: 50%;
+  transform: translateX(-50%);
   z-index: 1000;
-}
-
-.event-modal {
-  background: white;
-  padding: 20px;
-  border-radius: 16px;
   width: 90%;
   max-width: 400px;
-  position: relative;
 }
 
-.event-close-btn {
-  position: absolute;
-  top: 10px;
-  right: 14px;
-  border: none;
-  background: none;
-  font-size: 24px;
+.community-search input {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1px solid #ddd;
+  font-size: 16px;
+}
+
+.community-dropdown {
+  background: white;
+  border-radius: 12px;
+  margin-top: 6px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+  display: none;
+  overflow: hidden;
+}
+
+.dropdown-item {
+  padding: 10px 14px;
   cursor: pointer;
 }
 
-.event-date {
-  color: #667eea;
-  font-weight: 600;
-  margin-bottom: 10px;
+.dropdown-item:hover {
+  background: #f2f2f2;
 }
 
-#eventLink {
-  display: inline-block;
-  margin-top: 16px;
-  color: #667eea;
-  text-decoration: none;
-  font-weight: 600;
-}
