@@ -36,3 +36,9 @@
   background: #f2f2f2;
 }
 
+.event-x-icon {
+  font-size: 22px;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+}
+
