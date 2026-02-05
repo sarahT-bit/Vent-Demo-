@@ -46,36 +46,29 @@
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
   <!-- Chat function -->
-  <div id="chat-panel" class="chat-container" hidden>
+<div id="chat-panel" class="chat-container" hidden>
   <div class="chat-header">
     <div class="chat-title-group">
       <span class="chat-icon">💨</span>
-      <h3 id="active-post-title">Community Discussion</h3>
+      <h3 id="chat-post-title">Post Thread</h3>
     </div>
-    <button id="close-chat" onclick="toggleChat()">×</button>
+    <button onclick="closeChat()">×</button>
+  </div>
+
+  <div class="post-data-preview">
+    <p><strong>Vent by:</strong> <span id="chat-post-author">...</span></p>
+    <p id="chat-post-desc">Loading thoughts...</p>
+    <hr>
   </div>
 
   <div class="chat-messages" id="chatMessages">
-    <div class="message system">
-      <p>Welcome to the vent. Voice your thoughts on this post.</p>
-    </div>
     </div>
 
   <div class="chat-input-wrapper">
-    <button class="voice-btn" id="voiceBtn" title="Record Voice Thought">
-      <span class="mic-icon">🎤</span>
-    </button>
-    
-    <input type="text" id="chatInput" placeholder="Vent your thoughts..." />
-    
-    <button class="send-btn" id="sendBtn">
-      <svg viewBox="0 0 24 24" width="24" height="24">
-        <path fill="currentColor" d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"></path>
-      </svg>
-    </button>
+    <input type="text" id="chatInput" placeholder="Reply to this vent...">
+    <button id="sendBtn">Send</button>
   </div>
 </div>
-  
 
   <!-- Your JS -->
   <script src="main.js"></script>
