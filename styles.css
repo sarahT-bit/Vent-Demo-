@@ -140,3 +140,21 @@ html, body {
   outline: none;
 }
 
+.post-data-preview {
+    padding: 10px 15px;
+    background: #f8f9fa;
+    border-bottom: 1px solid #eee;
+    font-size: 0.9rem;
+    color: #555;
+}
+
+.post-data-preview strong {
+    color: #1a2a44; /* Your brand color */
+}
+
+hr {
+    border: 0;
+    border-top: 1px inset #eee;
+    margin: 10px 0;
+}
+
